@@ -1,0 +1,7 @@
+
+const toggle=document.querySelector('.menu-toggle');
+const nav=document.querySelector('.nav-links');
+if(toggle&&nav){toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');toggle.setAttribute('aria-expanded','false')}));}
+const items=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});items.forEach(el=>observer.observe(el));}else{items.forEach(el=>el.classList.add('visible'));}
+document.querySelectorAll('form[data-mailto]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();const data=new FormData(form);const subject=encodeURIComponent(form.dataset.subject||'Website enquiry');const body=encodeURIComponent([...data.entries()].map(([k,v])=>`${k}: ${v}`).join('\n'));const email=form.dataset.mailto;if(!email||email.includes('REPLACE_WITH')){alert('The form is ready, but the foundation must configure its verified receiving email or connect a form backend before enquiries can be submitted.');return;}window.location.href=`mailto:${email}?subject=${subject}&body=${body}`;}));
